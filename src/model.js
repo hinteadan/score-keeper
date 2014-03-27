@@ -47,7 +47,8 @@
         }
 
         //Public API
-        this.parties = parties || [];
+        this.parties = function () { return parties || []; };
+        this.points = function () { return points; };
         this.pointFor = function (party) {
             scorePointForPartyWithDetails(party, undefined);
         };
