@@ -115,7 +115,10 @@
             };
         };
         this.undoPoint = undoLastPoint;
-        this.close = closeAndSetWinner;
+        this.close = function (winner, notes) {
+            closeAndSetWinner(winner, notes);
+            return this;
+        };
         this.hasEnded = function () {
             return winningParty !== null;
         }

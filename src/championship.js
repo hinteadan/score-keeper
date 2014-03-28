@@ -145,6 +145,9 @@
 
             while (randomParties.length) {
                 clashes.push(new sk.Clash(randomParties.splice(0, 2)));
+                if (clashes[clashes.length - 1].parties()[1] === sk.Party.empty) {
+                    clashes[clashes.length - 1].close(clashes[clashes.length - 1].parties()[0], 'No opponent, direct advance');
+                }
             }
             return clashes;
         }
