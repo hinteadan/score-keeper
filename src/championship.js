@@ -32,7 +32,7 @@
         return result;
     }
 
-    function Championship(name) {
+    function Championship(name, details) {
 
         var parties = [];
 
@@ -49,6 +49,7 @@
         }
 
         this.name = name;
+        this.details = details || {};
         this.timestamp = new Date();
         this.addParty = function (party) {
             addParty(party);
