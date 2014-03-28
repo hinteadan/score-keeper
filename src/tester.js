@@ -2,4 +2,5 @@
     fed = new sk.Party('Fed Team').addMember(new sk.Individual('Dan', 'Hintea')),
     rafa = new sk.Party('Rafa Team').addMember(new sk.Individual('Gicu', 'Traian')),
     clash = new sk.Clash([fed, rafa]),
-    projector = new sk.Projector(clash);
+    projector = new sk.Projector(clash),
+    championship = new sk.Championship('Indian Wells 2014');
