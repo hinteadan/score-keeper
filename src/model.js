@@ -47,8 +47,14 @@
         }
 
         //Public API
-        this.parties = function () { return parties || []; };
-        this.points = function () { return points; };
+        this.parties = function () { 
+            /// <returns type='Array' elementType='Party' />
+            return parties || []; 
+        };
+        this.points = function () { 
+            /// <returns type='Array' elementType='Point' />
+            return points; 
+        };
         this.pointFor = function (party) {
             scorePointForPartyWithDetails(party, undefined);
         };
@@ -62,11 +68,50 @@
         this.undoPoint = undoLastPoint;
     }
 
+    function Projector(clash) {
+        /// <param name='clash' type='Clash' />
+
+        function getScoreForParty(party) {
+            /// <param name='party' type='Party' />
+            var score = 0;
+            for (var i = 0; i < clash.points().length; i++) {
+                if (clash.points()[i].party !== party) {
+                    continue;
+                }
+                score++;
+            }
+            return score;
+        }
+
+        function ScoreInfo(party, score) {
+            /// <field name='party' type='Party' />
+            /// <field name='score' type='Number' />
+
+            this.party = party;
+            this.score = score;
+        }
+
+        function projectCurrentScore() {
+            /// <returns type='Array' elementType='ScoreInfo' />
+            var scoreArray = [];
+            for (var i = 0; i < clash.parties().length; i++) {
+                scoreArray.push(new ScoreInfo(
+                    clash.parties()[i],
+                    getScoreForParty(clash.parties()[i]))
+                );
+            }
+            return scoreArray;
+        }
+
+        this.score = projectCurrentScore;
+    }
+
     this.H = this.H || {};
     this.H.ScoreKeeper = this.H.ScoreKeeper || {};
     this.H.ScoreKeeper.Individual = Individual;
     this.H.ScoreKeeper.Party = Party;
     this.H.ScoreKeeper.Point = Point;
     this.H.ScoreKeeper.Clash = Clash;
+    this.H.ScoreKeeper.Projector = Projector;
 
 }).call(this);
