@@ -3,8 +3,7 @@
     rafa = new sk.Party('Rafa Team').addMember(new sk.Individual('Gicu', 'Traian')),
     clash = new sk.Clash([fed, rafa]),
     projector = new sk.Projector(clash),
-    championship = new sk.Championship('Indian Wells 2014'),
-    generator = new sk.Logistics.RandomPartiesGenerator([
+    championship = new sk.Championship('Indian Wells 2014').addParties(new sk.Logistics.RandomPartiesGenerator([
         new sk.Individual('Dan', 'Hintea'),
         new sk.Individual('Vlad', 'Latis'),
         new sk.Individual('Gicu', 'Traian'),
@@ -18,4 +17,5 @@
         new sk.Individual('Cristina', 'Muresan'),
         new sk.Individual('Ioana', 'Gligan'),
         new sk.Individual('Diana', 'Mis')
-    ]);
+    ]).cutAndPairParties(2)),
+    system = new sk.Logistics.SingleEliminationSystem(championship);

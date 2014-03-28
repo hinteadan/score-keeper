@@ -131,9 +131,46 @@
         };
     }
 
+    function ClashFactory(parties) {
+        /// <param name='parties' type='Array' elementType='sk.Party' />
+        /// <returns type='Array' elementType='sk.Clash' />
+
+        function generateRandomOneOnOneClashes() {
+            var randomParties = randomizeArray(parties),
+                clashes = [];
+
+            if (randomParties.length % 2 !== 0) {
+                randomParties.push(sk.Party.empty);
+            }
+
+            while (randomParties.length) {
+                clashes.push(new sk.Clash(randomParties.splice(0, 2)));
+            }
+            return clashes;
+        }
+
+        return generateRandomOneOnOneClashes();
+    }
+
+    function SingleEliminationSystem(championship, clashFactory) {
+        /// <param name='championship' type='Championship' />
+        /// <param name='clashFactory' type='ClashFactory' optional='true' />
+        if (typeof (clashFactory) !== 'function') {
+            clashFactory = ClashFactory;
+        }
+
+        var initialClashes = clashFactory(championship.parties());
+
+        this.firstRound = function () {
+            /// <returns type='Array' elementType='sk.Clash' />
+            return initialClashes;
+        };
+    }
+
     sk.Championship = Championship;
 
     sk.Logistics = sk.Logistics || {};
     sk.Logistics.RandomPartiesGenerator = RandomPartiesGenerator;
+    sk.Logistics.SingleEliminationSystem = SingleEliminationSystem;
 
 }).call(this, this.H.ScoreKeeper);

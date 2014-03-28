@@ -51,6 +51,7 @@
         }
         this.details = details || {};
     }
+    Party.empty = new Party('Bye Bye');
 
     function Point(party, details) {
         /// <param name='party' type='Party' />
