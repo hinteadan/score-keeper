@@ -7,8 +7,23 @@
     }
 
     function Party(name, details) {
+
+        var individuals = [];
+
+        function addIndividual(person) {
+            /// <param name='person' type='Individual' />
+            individuals.push(person);
+        }
+
         this.name = name;
-        this.individuals = [];
+        this.individuals = function () {
+            /// <returns type='Array' elementType='Individual' />
+            return individuals || [];
+        };
+        this.addMember = function (person) {
+            addIndividual(person);
+            return this;
+        };
         this.details = details || {};
     }
 
