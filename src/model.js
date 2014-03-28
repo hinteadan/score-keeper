@@ -2,8 +2,27 @@
     'use strict';
 
     function Individual(firstName, lastName) {
+        /// <param name='firstName' type='String' />
+        /// <param name='lastName' type='String' />
+
+        function generateFullName() {
+            return firstName && lastName ? firstName + ' ' + lastName :
+                firstName && !lastName ? firstName :
+                !firstName && lastName ? lastName :
+                '<Unknown Individual>';
+        }
+
+        function generateShortName() {
+            return firstName && lastName ? firstName + ' ' + lastName.substr(0, 1) + '.' :
+                firstName && !lastName ? firstName :
+                !firstName && lastName ? lastName :
+                '<Unknown>';
+        }
+
         this.firstName = firstName;
         this.lastName = lastName;
+        this.fullName = generateFullName();
+        this.shortName = generateShortName();
     }
 
     function Party(name, details) {
