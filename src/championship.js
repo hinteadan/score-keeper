@@ -54,6 +54,13 @@
             addParty(party);
             return this;
         };
+        this.addParties = function (parties) {
+            /// <param name='parties' type='Array' elementType='sk.Party' />
+            for (var i in parties) {
+                addParty(parties[i]);
+            }
+            return this;
+        };
         this.parties = function () {
             /// <returns type='Array' elementType='sk.Party' />
             return parties || [];
