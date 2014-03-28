@@ -62,7 +62,9 @@
     function Clash(parties) {
         /// <param name='parties' type='Array' elementType='Party' />
 
-        var points = [];
+        var points = [],
+            winningParty = null,
+            winningNotes = undefined;
 
         function checkPartyIsPartOfThisClash(party) {
             /// <param name='party' type='Party' />
@@ -86,6 +88,12 @@
             points.pop();
         }
 
+        function closeAndSetWinner(winner, notes) {
+            checkPartyIsPartOfThisClash(winner);
+            winningParty = winner;
+            winningNotes = notes;
+        }
+
         //Public API
         this.parties = function () { 
             /// <returns type='Array' elementType='Party' />
@@ -106,6 +114,14 @@
             };
         };
         this.undoPoint = undoLastPoint;
+        this.close = closeAndSetWinner;
+        this.hasEnded = function () {
+            return winningParty !== null;
+        }
+        this.winner = function () {
+            /// <returns type='Party' />
+            return winningParty;
+        }
     }
 
     function Projector(clash) {
