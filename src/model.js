@@ -43,6 +43,12 @@
             addIndividual(person);
             return this;
         };
+        this.addMembers = function (persons) {
+            for (var i in persons) {
+                addIndividual(persons[i]);
+            }
+            return this;
+        }
         this.details = details || {};
     }
 
