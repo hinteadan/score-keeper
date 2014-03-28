@@ -9,6 +9,29 @@
         return clone;
     }
 
+    function splitArray(source, count) {
+        /// <param name='source' type='Array' />
+        var arrayToSplit = cloneArray(source),
+            chunks = [];
+        while (arrayToSplit.length) {
+            chunks.push(arrayToSplit.splice(0, count));
+        }
+        return chunks;
+    }
+
+    function randomizeArray(source) {
+        /// <param name='source' type='Array' />
+        var clone = cloneArray(source),
+            result = [];
+
+        while (clone.length) {
+            var index = Math.round(Math.random() * (clone.length - 1));
+            result.push(clone.splice(index, 1)[0]);
+        }
+
+        return result;
+    }
+
     function Championship(name) {
 
         var parties = [];
@@ -41,15 +64,15 @@
         /// <param name='individuals' type='Array' elementType='sk.Individual' />
 
         function randomizeIndividuals() {
-            var members = cloneArray(individuals),
-                result = [];
+            return randomizeArray(individuals);
+        }
 
-            while (members.length) {
-                var index = Math.round(Math.random() * (members.length - 1));
-                result.push(members.splice(index, 1)[0]);
+        function randomizeChunks(chunks) {
+            /// <param name='chunks' type='Array' elementType='Array' />
+            for (var i in chunks) {
+                chunks[i] = randomizeArray(chunks[i]);
             }
-
-            return result;
+            return chunks;
         }
 
         function generatePartyName(partyMembers) {
@@ -74,7 +97,30 @@
             return parties;
         }
 
+        function pairChunksInParties(chunks) {
+            /// <param name='chunks' type='Array' elementType='Array' />
+            var parties = [];
+            randomizeChunks(chunks);
+            for (var row = 0; row < chunks[0].length; row++) {
+                var members = [];
+                for (var col = 0; col < chunks.length; col++) {
+                    if (!chunks[col][row]) {
+                        continue;
+                    }
+                    members.push(chunks[col][row]);
+                }
+                parties.push(new sk.Party(generatePartyName(members)).addMembers(members));
+            }
+            return parties;
+        }
+
         this.parties = generateParties;
+        this.partiesOf = function (membersCount) {
+            return generateParties(membersCount);
+        };
+        this.cutAndPairParties = function (membersCount) {
+            return pairChunksInParties(splitArray(individuals, Math.ceil(individuals.length / membersCount)));
+        };
     }
 
     sk.Championship = Championship;
