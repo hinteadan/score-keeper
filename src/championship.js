@@ -79,7 +79,7 @@
             for (var i = 0; i < clash.parties().length; i++) {
                 vsParts.push(clash.parties()[i].name);
             }
-            return new sk.Party('Winner of: ' + vsParts.join(' vs '));
+            return new sk.Party('<<Winner of: ' + vsParts.join(' vs ') + '>> ');
         }
 
         function projectNextRound(currentRound) {
@@ -117,7 +117,15 @@
             return rounds;
         }
 
+        function projectWinner() {
+            /// <returns type='sk.Party' />
+            var rounds = projectRounds(),
+                finalClash = rounds[rounds.length - 1][0];
+            return finalClash.winner() || generateVirtualPartyForFutureWinnerOf(finalClash);
+        }
+
         this.rounds = projectRounds;
+        this.winner = projectWinner;
     }
 
     function Championship(name, systemOfPlay, details) {
@@ -162,6 +170,7 @@
             return parties || [];
         };
         this.rounds = systemOfPlay.rounds;
+        this.winner = systemOfPlay.winner;
     }
 
     function RandomPartiesGenerator(individuals) {
@@ -185,7 +194,7 @@
             for (var i = 0; i < partyMembers.length; i++) {
                 names.push(partyMembers[i].shortName);
             }
-            return names.join(' / ');
+            return names.join('/');
         }
 
         function generateParties(maxMembers) {
