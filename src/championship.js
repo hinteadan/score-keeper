@@ -171,6 +171,10 @@
         };
         this.rounds = systemOfPlay.rounds;
         this.winner = systemOfPlay.winner;
+        this.hasEnded = function () {
+            var rounds = this.rounds();
+            return rounds[rounds.length - 1][0].hasEnded();
+        }
     }
 
     function RandomPartiesGenerator(individuals) {
