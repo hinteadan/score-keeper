@@ -32,9 +32,64 @@
         return result;
     }
 
-    function Championship(name, details) {
+    function ClashFactory(parties) {
+        /// <param name='parties' type='Array' elementType='sk.Party' />
+        /// <returns type='Array' elementType='sk.Clash' />
+
+        function generateRandomOneOnOneClashes() {
+            var randomParties = randomizeArray(parties),
+                clashes = [];
+
+            if (randomParties.length % 2 !== 0) {
+                randomParties.push(sk.Party.empty);
+            }
+
+            while (randomParties.length) {
+                clashes.push(new sk.Clash(randomParties.splice(0, 2)));
+                if (clashes[clashes.length - 1].parties()[1] === sk.Party.empty) {
+                    clashes[clashes.length - 1].close(clashes[clashes.length - 1].parties()[0], 'No opponent, direct advance');
+                }
+            }
+            return clashes;
+        }
+
+        return generateRandomOneOnOneClashes();
+    }
+
+    function SingleEliminationSystem(parties, clashFactory) {
+        /// <param name='parties' type='Array' elementType='sk.Party' />
+        /// <param name='clashFactory' type='ClashFactory' optional='true' />
+        if (typeof (clashFactory) !== 'function') {
+            clashFactory = ClashFactory;
+        }
+
+        var initialClashes = null;
+
+        function ensureInitialClashes() {
+            if (initialClashes && initialClashes.length) {
+                return;
+            }
+            initialClashes = clashFactory(parties);
+        }
+
+        function projectRounds() {
+            ensureInitialClashes();
+            return initialClashes;
+        }
+
+        this.rounds = projectRounds;
+    }
+
+    function Championship(name, systemOfPlay, details) {
+        /// <param name='name' type='String' />
+        /// <param name='systemOfPlay' type='SingleEliminationSystem' optional='true' />
+        /// <param name='details' type='Object' optional='true' />
 
         var parties = [];
+
+        if (!systemOfPlay) {
+            systemOfPlay = new SingleEliminationSystem(parties);
+        }
 
         function partyExistsAlready(party) {
             return parties.indexOf(party) >= 0;
@@ -66,6 +121,7 @@
             /// <returns type='Array' elementType='sk.Party' />
             return parties || [];
         };
+        this.rounds = systemOfPlay.rounds;
     }
 
     function RandomPartiesGenerator(individuals) {
@@ -128,45 +184,6 @@
         };
         this.cutAndPairParties = function (membersCount) {
             return pairChunksInParties(splitArray(individuals, Math.ceil(individuals.length / membersCount)));
-        };
-    }
-
-    function ClashFactory(parties) {
-        /// <param name='parties' type='Array' elementType='sk.Party' />
-        /// <returns type='Array' elementType='sk.Clash' />
-
-        function generateRandomOneOnOneClashes() {
-            var randomParties = randomizeArray(parties),
-                clashes = [];
-
-            if (randomParties.length % 2 !== 0) {
-                randomParties.push(sk.Party.empty);
-            }
-
-            while (randomParties.length) {
-                clashes.push(new sk.Clash(randomParties.splice(0, 2)));
-                if (clashes[clashes.length - 1].parties()[1] === sk.Party.empty) {
-                    clashes[clashes.length - 1].close(clashes[clashes.length - 1].parties()[0], 'No opponent, direct advance');
-                }
-            }
-            return clashes;
-        }
-
-        return generateRandomOneOnOneClashes();
-    }
-
-    function SingleEliminationSystem(championship, clashFactory) {
-        /// <param name='championship' type='Championship' />
-        /// <param name='clashFactory' type='ClashFactory' optional='true' />
-        if (typeof (clashFactory) !== 'function') {
-            clashFactory = ClashFactory;
-        }
-
-        var initialClashes = clashFactory(championship.parties());
-
-        this.firstRound = function () {
-            /// <returns type='Array' elementType='sk.Clash' />
-            return initialClashes;
         };
     }
 

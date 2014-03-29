@@ -17,5 +17,4 @@
         new sk.Individual('Cristina', 'Muresan'),
         new sk.Individual('Ioana', 'Gligan'),
         new sk.Individual('Diana', 'Mis')
-    ]).cutAndPairParties(2)),
-    system = new sk.Logistics.SingleEliminationSystem(championship);
+    ]).cutAndPairParties(2));
