@@ -33,7 +33,8 @@
         }
 
         /// <var type='Array' elementType='sk.Clash' />
-        var initialClashes = null;
+        var initialClashes = null,
+            lastProjectedRounds = null;
 
         function ensureInitialClashes() {
             if (initialClashes && initialClashes.length) {
@@ -48,20 +49,29 @@
             for (var i = 0; i < clash.parties().length; i++) {
                 vsParts.push(clash.parties()[i].name);
             }
-            return new sk.Party('<<Winner of: ' + vsParts.join(' vs ') + '>> ');
+            return new sk.Party('<<Winner of: ' + vsParts.join(' vs ') + '>> ', { isVirtual: true });
         }
 
-        function projectNextRound(currentRound) {
+        function isClashVirtual(clash) {
+            /// <param name='clash' type='sk.Clash' />
+            return clash.parties()[0].details.isVirtual === true;
+        }
+
+        function projectNextRound(currentRound, lastProjectedRound) {
             /// <param name='currentRound' type='Array' elementType='sk.Clash' />
+            /// <param name='lastProjectedRound' type='Array' elementType='sk.Clash' />
             if (currentRound.length === 1) {
                 throw new Error("This is the final round, there is no next round.");
             }
             var clashes = [];
             for (var i = 0; i < currentRound.length; i += 2) {
-                clashes.push(new sk.Clash([
-                    currentRound[i].winner() || generateVirtualPartyForFutureWinnerOf(currentRound[i]),
-                    currentRound[i + 1] ? currentRound[i + 1].winner() || generateVirtualPartyForFutureWinnerOf(currentRound[i + 1]) : sk.Party.empty
-                ]));
+                var clash = lastProjectedRound && !isClashVirtual(lastProjectedRound[i / 2]) ?
+                            lastProjectedRound[i / 2] :
+                            new sk.Clash([
+                                currentRound[i].winner() || generateVirtualPartyForFutureWinnerOf(currentRound[i]),
+                                currentRound[i + 1] ? currentRound[i + 1].winner() || generateVirtualPartyForFutureWinnerOf(currentRound[i + 1]) : sk.Party.empty
+                            ]);
+                clashes.push(clash);
                 if (clashes[clashes.length - 1].parties()[1] === sk.Party.empty) {
                     clashes[clashes.length - 1].close(clashes[clashes.length - 1].parties()[0], 'No opponent, direct advance');
                 }
@@ -79,9 +89,11 @@
                 nextClashes = [];
 
             do {
-                nextClashes = projectNextRound(rounds[rounds.length - 1]);
+                nextClashes = projectNextRound(rounds[rounds.length - 1], lastProjectedRounds ? lastProjectedRounds[rounds.length] : null);
                 rounds.push(nextClashes);
             } while (nextClashes.length > 1);
+
+            lastProjectedRounds = rounds;
 
             return rounds;
         }

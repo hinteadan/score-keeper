@@ -95,6 +95,10 @@
             winningNotes = notes;
         }
 
+        function hasEnded(){
+            return winningParty !== null;
+        }
+
         //Public API
         this.parties = function () { 
             /// <returns type='Array' elementType='Party' />
@@ -116,12 +120,13 @@
         };
         this.undoPoint = undoLastPoint;
         this.close = function (winner, notes) {
+            if (hasEnded()) {
+                throw new Error('This clash ended already in favor of ' + winningParty.name);
+            }
             closeAndSetWinner(winner, notes);
             return this;
         };
-        this.hasEnded = function () {
-            return winningParty !== null;
-        }
+        this.hasEnded = hasEnded;
         this.winner = function () {
             /// <returns type='Party' />
             return winningParty;
