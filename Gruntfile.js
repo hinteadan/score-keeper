@@ -35,6 +35,16 @@ module.exports = function (grunt) {
                 dest: 'build/h.scoreKeeper.js',
             }
         },
+        uglify:{
+            options: {
+                mangle: false
+            },
+            dist: {
+                files: {
+                    'build/h.scoreKeeper.min.js': ['build/h.scoreKeeper.js']
+                }
+            }
+        },
         jshint: {
             options: {
                 jshintrc: '.jshintrc'
@@ -48,11 +58,12 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'clean:dist',
-        'concat:dist'
+        'concat:dist',
+        'uglify:dist'
     ]);
 
     grunt.registerTask('default', [
         'jshint',
-        'build'
+        'build',
     ]);
 };
