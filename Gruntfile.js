@@ -36,9 +36,6 @@ module.exports = function (grunt) {
             }
         },
         uglify:{
-            options: {
-                mangle: false
-            },
             dist: {
                 files: {
                     'build/h.scoreKeeper.min.js': ['build/h.scoreKeeper.js']
