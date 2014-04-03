@@ -22,12 +22,18 @@ module.exports = function (grunt) {
         },
         concat: {
             options: {
-                separator: ';',
+                separator: '\r\n',
             },
             dist: {
-                src: ['intro.js', 'src/project.js', 'src/outro.js'],
-                dest: 'bnuild/h.sk.js',
-            },
+                src: [
+					'src/jsutils.js',
+					'src/model.js',
+					'src/skutils.js',
+					'src/sklogistics.js',
+					'src/championship.js'
+				],
+                dest: 'build/h.scoreKeeper.js',
+            }
         },
         jshint: {
             options: {
@@ -41,7 +47,8 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('build', [
-        'clean:dist'
+        'clean:dist',
+        'concat:dist'
     ]);
 
     grunt.registerTask('default', [
