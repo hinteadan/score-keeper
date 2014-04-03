@@ -1,8 +1,4 @@
 ﻿var sk = this.H.ScoreKeeper,
-    fed = new sk.Party('Fed Team').addMember(new sk.Individual('Dan', 'Hintea')),
-    rafa = new sk.Party('Rafa Team').addMember(new sk.Individual('Gicu', 'Traian')),
-    clash = new sk.Clash([fed, rafa]),
-    projector = new sk.Projector(clash),
     championship = new sk.Championship('Hintee\'s Awesome Tournament').addParties(new sk.Sattelites.RandomPartiesGenerator([
         new sk.Individual('Dan', 'Hintea'),
         new sk.Individual('Vlad', 'Latis'),
@@ -18,3 +14,5 @@
         new sk.Individual('Ioana', 'Gligan'),
         new sk.Individual('Diana', 'Mis')
     ]).cutAndPairParties(2));
+
+championship.winner();

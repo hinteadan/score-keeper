@@ -47,7 +47,7 @@
         this.hasEnded = function () {
             var rounds = this.rounds();
             return rounds[rounds.length - 1][0].hasEnded();
-        }
+        };
     }
 
     sk.Championship = Championship;

@@ -48,7 +48,7 @@
                 addIndividual(persons[i]);
             }
             return this;
-        }
+        };
         this.details = details || {};
     }
     Party.empty = new Party('Bye Bye');
@@ -65,7 +65,7 @@
 
         var points = [],
             winningParty = null,
-            winningNotes = undefined;
+            winningNotes;
 
         function checkPartyIsPartOfThisClash(party) {
             /// <param name='party' type='Party' />
@@ -76,7 +76,7 @@
                     }
                 }
             }
-            throw new Error("The given party, named <<" + party.name + ">>, is not part of this clash.");
+            throw new Error('The given party, named <<' + party.name + '>>, is not part of this clash.');
         }
 
         function scorePointForPartyWithDetails(party, pointDetails) {
@@ -100,13 +100,13 @@
         }
 
         //Public API
-        this.parties = function () { 
+        this.parties = function () {
             /// <returns type='Array' elementType='Party' />
-            return parties || []; 
+            return parties || [];
         };
-        this.points = function () { 
+        this.points = function () {
             /// <returns type='Array' elementType='Point' />
-            return points; 
+            return points;
         };
         this.pointFor = function (party) {
             scorePointForPartyWithDetails(party, undefined);
@@ -130,7 +130,7 @@
         this.winner = function () {
             /// <returns type='Party' />
             return winningParty;
-        }
+        };
     }
 
     function Projector(clash) {

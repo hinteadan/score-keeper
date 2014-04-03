@@ -1,4 +1,4 @@
-﻿(function (sk, undefined) {
+﻿(function (sk, randomizeArray, splitArray, undefined) {
     'use strict';
 
     function RandomPartiesGenerator(individuals) {
@@ -67,4 +67,4 @@
     sk.Sattelites = sk.Sattelites || {};
     sk.Sattelites.RandomPartiesGenerator = RandomPartiesGenerator;
 
-}).call(this, this.H.ScoreKeeper);
+}).call(this, this.H.ScoreKeeper, this.randomizeArray, this.splitArray);

@@ -1,4 +1,4 @@
-﻿(function (sk, undefined) {
+﻿(function (sk, randomizeArray, undefined) {
     'use strict';
 
     function ClashFactory(parties) {
@@ -61,16 +61,16 @@
             /// <param name='currentRound' type='Array' elementType='sk.Clash' />
             /// <param name='lastProjectedRound' type='Array' elementType='sk.Clash' />
             if (currentRound.length === 1) {
-                throw new Error("This is the final round, there is no next round.");
+                throw new Error('This is the final round, there is no next round.');
             }
             var clashes = [];
             for (var i = 0; i < currentRound.length; i += 2) {
                 var clash = lastProjectedRound && !isClashVirtual(lastProjectedRound[i / 2]) ?
                             lastProjectedRound[i / 2] :
                             new sk.Clash([
-                                currentRound[i].winner() || generateVirtualPartyForFutureWinnerOf(currentRound[i]),
-                                currentRound[i + 1] ? currentRound[i + 1].winner() || generateVirtualPartyForFutureWinnerOf(currentRound[i + 1]) : sk.Party.empty
-                            ]);
+                    currentRound[i].winner() || generateVirtualPartyForFutureWinnerOf(currentRound[i]),
+                    currentRound[i + 1] ? currentRound[i + 1].winner() || generateVirtualPartyForFutureWinnerOf(currentRound[i + 1]) : sk.Party.empty
+                ]);
                 clashes.push(clash);
                 if (clashes[clashes.length - 1].parties()[1] === sk.Party.empty) {
                     clashes[clashes.length - 1].close(clashes[clashes.length - 1].parties()[0], 'No opponent, direct advance');
@@ -112,4 +112,4 @@
     sk.Logistics = sk.Logistics || {};
     sk.Logistics.SingleEliminationSystem = SingleEliminationSystem;
 
-}).call(this, this.H.ScoreKeeper);
+}).call(this, this.H.ScoreKeeper, this.randomizeArray);
