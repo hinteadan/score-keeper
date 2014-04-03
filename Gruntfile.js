@@ -20,18 +20,32 @@ module.exports = function (grunt) {
             },
             server: '.tmp'
         },
+        concat: {
+            options: {
+                separator: ';',
+            },
+            dist: {
+                src: ['intro.js', 'src/project.js', 'src/outro.js'],
+                dest: 'bnuild/h.sk.js',
+            },
+        },
         jshint: {
             options: {
                 jshintrc: '.jshintrc'
             },
             all: [
                 'Gruntfile.js',
-                '{,*/}*.js'
+                'src/{,*/}*.js'
             ]
         }
     });
 
+    grunt.registerTask('build', [
+        'clean:dist'
+    ]);
+
     grunt.registerTask('default', [
-        'jshint'
+        'jshint',
+        'build'
     ]);
 };
