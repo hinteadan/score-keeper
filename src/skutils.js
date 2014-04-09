@@ -20,7 +20,7 @@
             /// <param name='partyMembers' type='Array' elementType='sk.Individual' />
             var names = [];
             for (var i = 0; i < partyMembers.length; i++) {
-                names.push(partyMembers[i].shortName);
+                names.push(partyMembers[i].shortName());
             }
             return names.join('/');
         }

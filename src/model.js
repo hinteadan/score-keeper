@@ -21,8 +21,8 @@
 
         this.firstName = firstName;
         this.lastName = lastName;
-        this.fullName = generateFullName();
-        this.shortName = generateShortName();
+        this.fullName = generateFullName;
+        this.shortName = generateShortName;
     }
 
     function Party(name, details) {
