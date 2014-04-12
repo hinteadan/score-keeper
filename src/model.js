@@ -34,6 +34,14 @@
             individuals.push(person);
         }
 
+        function removeIndividual(person) {
+            var index = individuals.indexOf(person);
+            if(index < 0){
+                return;
+            }
+            individuals.splice(index, 1);
+        }
+
         this.name = name;
         this.individuals = function () {
             /// <returns type='Array' elementType='Individual' />
@@ -46,6 +54,16 @@
         this.addMembers = function (persons) {
             for (var i in persons) {
                 addIndividual(persons[i]);
+            }
+            return this;
+        };
+        this.zapMember = function(person){
+            removeIndividual(person);
+            return this;
+        };
+        this.zapMembers = function (persons) {
+            for (var i in persons) {
+                removeIndividual(persons[i]);
             }
             return this;
         };
