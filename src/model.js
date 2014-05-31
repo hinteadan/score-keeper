@@ -136,7 +136,7 @@
 		this.details = details || {};
 		this.parties = parties;
 		this.points = points;
-		this.pointsFor = pointsPerParty;
+		this.pointsFor = pointsFor;
 		this.pointFor = function (party) {
 			scorePointForPartyWithDetails(party, undefined);
 			return this;
