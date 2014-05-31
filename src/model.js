@@ -83,7 +83,7 @@
         this.details = details || {};
     }
 
-    function Clash(parties) {
+    function Clash(parties, details) {
         /// <param name='parties' type='Array' elementType='Party' />
 
         var points = [],
@@ -122,7 +122,8 @@
             return winningParty !== null;
         }
 
-        //Public API
+    	//Public API
+        this.details = details || {};
         this.parties = function () {
             /// <returns type='Array' elementType='Party' />
             return parties || [];
