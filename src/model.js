@@ -112,7 +112,7 @@
 
 		function pointsFor(party) {
 			/// <param name='party' type='Party' />
-			return pointsPerParty[party.name];
+			return pointsPerParty[party.name] || [];
 		}
 
 		function undoLastPoint() {
