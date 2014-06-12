@@ -46,6 +46,7 @@
                 return array[i];
             }
         }
+        return null;
     }
 
     this.H = this.H || {};
