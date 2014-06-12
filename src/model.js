@@ -28,6 +28,11 @@
 		this.lastName = lastName;
 		this.fullName = generateFullName;
 		this.shortName = generateShortName;
+		this.isMatching = function (otherIndividual) {
+		    return typeof otherIndividual.id === 'function' ?
+                this.id() === otherIndividual.id() :
+                this.firstName === otherIndividual.firstName && this.lastName === otherIndividual.lastName;
+		};
 	}
 
 	function Party(name, details) {

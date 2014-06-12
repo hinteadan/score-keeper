@@ -28,6 +28,7 @@ module.exports = function (grunt) {
                 src: [
 					'src/jsutils.js',
 					'src/model.js',
+                    'src/modelBuilder.js',
 					'src/skutils.js',
 					'src/sklogistics.js',
 					'src/championship.js'
