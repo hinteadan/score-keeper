@@ -83,6 +83,13 @@
 		this.party = party;
 		this.timestamp = new Date();
 		this.details = details || {};
+		this.setTimestamp = function (timestamp) {
+		    if (!(timestamp instanceof Date)) {
+		        return;
+		    }
+		    this.timestamp = timestamp;
+		    return this;
+		};
 	}
 
 	function Clash(parties, details) {
