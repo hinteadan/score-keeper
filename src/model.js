@@ -111,15 +111,19 @@
 			throw new Error('The given party, named <<' + party.name + '>>, is not part of this clash.');
 		}
 
+		function scorePoint(point) {
+		    /// <param name='point' type='Point' />
+		    checkPartyIsPartOfThisClash(point.party);
+		    points.push(point);
+		    if (!pointsPerParty[point.party.name]) {
+		        pointsPerParty[point.party.name] = [];
+		    }
+		    pointsPerParty[point.party.name].push(point);
+		}
+
 		function scorePointForPartyWithDetails(party, pointDetails) {
-			/// <param name='party' type='Party' />
-			checkPartyIsPartOfThisClash(party);
-			var point = new Point(party, pointDetails);
-			points.push(point);
-			if (!pointsPerParty[party.name]) {
-				pointsPerParty[party.name] = [];
-			}
-			pointsPerParty[party.name].push(point);
+		    /// <param name='party' type='Party' />
+		    scorePoint(new Point(party, pointDetails));
 		}
 
 		function pointsFor(party) {
@@ -160,6 +164,10 @@
 					return this;
 				}
 			};
+		};
+		this.addPoint = function (point) {
+		    scorePoint(point);
+		    return this;
 		};
 		this.undoPoint = function () {
 			undoLastPoint();
