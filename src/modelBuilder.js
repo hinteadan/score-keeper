@@ -15,7 +15,6 @@
                 return find(individualsPool, function (p) { return p.isMatching(individualDto); }) ||
                     sk.Individual.revive(individualDto);
             }));
-
     };
 
     sk.Point.revive = function (dto, partyPool) {
@@ -23,7 +22,17 @@
         return new sk.Point(
             partyPool ? find(partyPool, function (party) { return party.name === dto.party.name; }) : sk.Party.revive(dto),
             dto.details).setTimestamp(dto.timestamp);
+    };
 
+    sk.Clash.revive = function (dto, partyPool) {
+        /// <param name='partyPool' optional='true' />
+        var parties = map(dto.parties, function (partyDto) {
+            return partyPool ? find(partyPool, function (p) { return p.name === partyDto.name; }) : sk.Party.revive(partyDto);
+        });
+
+        return sk.Clash(parties, dto.details).addPoints(map(dto.points, function (pointDto) {
+            return sk.Point.revive(pointDto, parties);
+        }));
     };
 
 }).call(this, this.H.ScoreKeeper, this.H.JsUtils.map, this.H.JsUtils.find);

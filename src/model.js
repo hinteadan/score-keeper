@@ -169,6 +169,12 @@
 		    scorePoint(point);
 		    return this;
 		};
+		this.addPoints = function (points) {
+		    for (var i = 0; i < points.length; i++) {
+		        scorePoint(points[i]);
+		    }
+		    return this;
+		};
 		this.undoPoint = function () {
 			undoLastPoint();
 			return this;
