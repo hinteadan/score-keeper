@@ -32,8 +32,29 @@
         return result;
     }
 
-    this.cloneArray = cloneArray;
-    this.splitArray = splitArray;
-    this.randomizeArray = randomizeArray;
+    function map(array, factory) {
+        var mapping = [];
+        for (var i = 0; i < array.length; i++) {
+            mapping.push(factory(array[i], i));
+        }
+        return mapping;
+    }
+
+    function find(array, match) {
+        for (var i = 0; i < array.length; i++) {
+            if (match(array[i], i) === true) {
+                return array[i];
+            }
+        }
+    }
+
+    this.H = this.H || {};
+    this.H.JsUtils = this.H.JsUtils || {};
+
+    this.H.JsUtils.cloneArray = cloneArray;
+    this.H.JsUtils.splitArray = splitArray;
+    this.H.JsUtils.randomizeArray = randomizeArray;
+    this.H.JsUtils.map = map;
+    this.H.JsUtils.find = find;
 
 }).call(this);

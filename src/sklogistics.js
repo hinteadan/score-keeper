@@ -112,4 +112,4 @@
     sk.Logistics = sk.Logistics || {};
     sk.Logistics.SingleEliminationSystem = SingleEliminationSystem;
 
-}).call(this, this.H.ScoreKeeper, this.randomizeArray);
+}).call(this, this.H.ScoreKeeper, this.H.JsUtils.randomizeArray);

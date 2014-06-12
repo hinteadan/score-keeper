@@ -67,4 +67,4 @@
     sk.Sattelites = sk.Sattelites || {};
     sk.Sattelites.RandomPartiesGenerator = RandomPartiesGenerator;
 
-}).call(this, this.H.ScoreKeeper, this.randomizeArray, this.splitArray);
+}).call(this, this.H.ScoreKeeper, this.H.JsUtils.randomizeArray, this.H.JsUtils.splitArray);
