@@ -1,6 +1,12 @@
 ﻿(function (undefined) {
     'use strict';
 
+    function each(array, processor) {
+    	for (var i = 0; i < array.length; i++) {
+    		processor(array[i], i);
+    	}
+    }
+
     function cloneArray(source) {
         var clone = [];
         for (var i = 0; i < source.length; i++) {
@@ -49,13 +55,35 @@
         return null;
     }
 
+    function all(array, condition) {
+    	for (var i = 0; i < array.length; i++) {
+    		if (condition(array[i], i) === false) {
+    			return false;
+    		}
+    	}
+    	return true;
+    }
+
+    function where(array, match) {
+    	var result = [];
+    	for (var i = 0; i < array.length; i++) {
+    		if (match(array[i], i) === true) {
+    			result.push(array[i]);
+    		}
+    	}
+    	return result;
+    }
+
     this.H = this.H || {};
     this.H.JsUtils = this.H.JsUtils || {};
 
+    this.H.JsUtils.each = each;
     this.H.JsUtils.cloneArray = cloneArray;
     this.H.JsUtils.splitArray = splitArray;
     this.H.JsUtils.randomizeArray = randomizeArray;
     this.H.JsUtils.map = map;
     this.H.JsUtils.find = find;
+    this.H.JsUtils.all = all;
+    this.H.JsUtils.where = where;
 
 }).call(this);
