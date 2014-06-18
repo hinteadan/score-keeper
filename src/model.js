@@ -1,4 +1,4 @@
-﻿(function (escape, all, where, each, find) {
+﻿(function (escape, all, where, each, find, last) {
 	'use strict';
 
 	function Individual(firstName, lastName) {
@@ -252,6 +252,14 @@
 
 			return winner;
 		};
+		this.close = function () {
+			if (all(clashes, function (c) { return !c.hasEnded(); })) {
+				throw new Error('No clash has ended yet. You probably want to close the set when you have a win scenario!');
+			}
+			while (!last(clashes).hasEnded()) {
+				clashes.pop();
+			}
+		};
 
 		this.activeClash = function () {
 			return find(clashes, function (c) { return !c.hasEnded(); });
@@ -305,4 +313,4 @@
 	this.H.ScoreKeeper.ClashSet = ClashSet;
 	this.H.ScoreKeeper.Projector = Projector;
 
-}).call(this, this.escape, this.H.JsUtils.all, this.H.JsUtils.where, this.H.JsUtils.each, this.H.JsUtils.find);
+}).call(this, this.escape, this.H.JsUtils.all, this.H.JsUtils.where, this.H.JsUtils.each, this.H.JsUtils.find, this.H.JsUtils.last);
