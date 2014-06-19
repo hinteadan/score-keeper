@@ -234,6 +234,12 @@
 		this.hasEnded = function () {
 			return all(clashes, function (c) { return c.hasEnded(); });
 		};
+		this.isTie = function () {
+		    var tieScore = scoreFor(parties[0]);
+		    return all(parties, function (p) {
+		        return scoreFor(p) === tieScore;
+		    }) || this.winner() === Party.tie;
+		};
 		this.winner = function () {
 			if (!this.hasEnded()) {
 				return null;
