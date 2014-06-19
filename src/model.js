@@ -78,6 +78,7 @@
 	}
 	Party.empty = new Party('Bye Bye');
 	Party.tie = new Party('Tie');
+	Party.tie.isTie = true;
 
 	function Point(party, details) {
 		/// <param name='party' type='Party' />
@@ -151,6 +152,7 @@
 			checkPartyIsPartOfThisClash(winner);
 			winnerParty = winner;
 			self.winnerNotes = notes;
+			self.winnerParty = winnerParty;
 		}
 
 		function hasEnded() {

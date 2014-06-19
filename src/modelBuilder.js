@@ -27,13 +27,23 @@
     sk.Clash.revive = function (dto, partyPool, detailsFactory) {
         /// <param name='partyPool' optional='true' />
         var parties = map(dto.parties, function (partyDto) {
-            return partyPool ? find(partyPool, function (p) { return p.name === partyDto.name; }) : sk.Party.revive(partyDto);
-        });
-
-        return new sk.Clash(parties, detailsFactory ? detailsFactory(dto.details) : dto.details)
+                return partyPool ? find(partyPool, function (p) { return p.name === partyDto.name; }) : sk.Party.revive(partyDto);
+            }),
+            clash = new sk.Clash(parties, detailsFactory ? detailsFactory(dto.details) : dto.details)
             .addPoints(map(dto.points, function (pointDto) {
                 return sk.Point.revive(pointDto, parties);
             }));
+
+        if (dto.winnerParty) {
+            if (dto.winnerParty.isTie) {
+                clash.closeAsTie(dto.winnerNotes);
+            }
+            else {
+                clash.close(find(parties, function (p) { return p.name === dto.winnerParty.name; }), dto.winnerNotes);
+            }
+        }
+
+        return clash;
     };
 
     sk.ClashSet.revive = function (dto, partyPool, detailsFactory) {
