@@ -36,4 +36,16 @@
             }));
     };
 
+    sk.ClashSet.revive = function (dto, partyPool, detailsFactory) {
+        /// <param name='partyPool' optional='true' />
+        var parties = map(dto.parties, function (partyDto) {
+                return partyPool ? find(partyPool, function (p) { return p.name === partyDto.name; }) : sk.Party.revive(partyDto);
+            }),
+            clashes = map(dto.clashes, function (clashDto) {
+                return sk.Clash.revive(clashDto, parties, detailsFactory);
+            });
+
+        return new sk.ClashSet(clashes, parties, detailsFactory ? detailsFactory(dto.details) : dto.details);
+    };
+
 }).call(this, this.H.ScoreKeeper, this.H.JsUtils.map, this.H.JsUtils.find);
